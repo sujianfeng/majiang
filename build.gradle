@@ -1,0 +1,72 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.2.RELEASE'
+	}
+	repositories {
+//		mavenCentral()
+		maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'majiang'
+	version = '0.0.1-SNAPSHOT'
+}
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+//	mavenCentral()
+	maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+//    compile('org.springframework.boot:spring-boot-starter-security')
+
+
+
+	runtime('mysql:mysql-connector-java')
+
+	compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+	compile group: 'com.jolbox', name: 'bonecp', version: '0.8.0.RELEASE'
+	compile group: 'org.apache.commons', name: 'commons-email', version: '1.4'
+	compile group: 'net.sf.ehcache', name: 'ehcache-core', version: '2.6.11'
+	compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+	compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.5'
+	compile group: 'org.json', name: 'json', version: '20160810'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
+	compile group: 'org.apache.commons', name: 'com.springsource.org.apache.commons.beanutils', version: '1.8.3'
+	compile group: 'jaxen', name: 'jaxen', version: '1.1.6'
+
+	/*compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.4.0-RC2'
+    compile group: 'org.apache.shiro', name: 'shiro-ehcache', version: '1.4.0-RC2'
+    compile group: 'org.apache.shiro', name: 'shiro-core', version: '1.4.0-RC2'
+
+    compile group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.2.RELEASE'
+    compile group: 'com.github.theborakompanioni', name: 'thymeleaf-extras-shiro', version: '2.0.0'*/
+
+	/* compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.3'*/
+
+	/*compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'*/
+
+
+
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+
+	compile('org.springframework.boot:spring-boot-devtools')
+}

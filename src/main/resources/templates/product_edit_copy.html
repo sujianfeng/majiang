@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>产品编辑</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--在移动设备浏览器上，通过为视口（viewport）设置 meta 属性为 user-scalable=no 可以禁用其缩放（zooming）功能。这样禁用缩放功能后，用户只能滚动屏幕，就能让你的网站看上去更像原生应用的感觉。注意，这种方式我们并不推荐所有网站使用，还是要看你自己的情况而定！
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    -->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-default" role="navigation" id="top" th:include="menu_top :: menu_top"></nav>
+<div class="col-md-8 col-sm-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Basic Form Elements
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>Text Input</label>
+                            <input class="form-control"/>
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Text Input with Placeholder</label>
+                            <input class="form-control" placeholder="Enter text"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Static Control</label>
+                            <p class="form-control-static">email@example.com</p>
+                        </div>
+                        <div class="form-group">
+                            <label>File input</label>
+                            <input type="file"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Text area</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Checkboxes</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value=""/>Checkbox 1
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value=""/>Checkbox 2
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value=""/>Checkbox 3
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Inline Checkboxes</label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox"/>1
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox"/>2
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox"/>3
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Radio Buttons</label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1"
+                                           checked=""/>Radio 1
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"/>Radio
+                                    2
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3"/>Radio
+                                    3
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Inline Radio Buttons</label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1"
+                                       checked=""/>1
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2"
+                                       value="option2"/>2
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline3"
+                                       value="option3"/>3
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Selects</label>
+                            <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Multiple Selects</label>
+                            <select multiple="" class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit Button</button>
+                        <button type="reset" class="btn btn-default">Reset Button</button>
+                    </form>
+                </div>
+                <!-- /.col-lg-6 (nested) -->
+                <div class="col-lg-6">
+                    <h1>Disabled Form States</h1>
+                    <form role="form">
+                        <fieldset disabled="">
+                            <div class="form-group">
+                                <label for="disabledSelect">Disabled input</label>
+                                <input class="form-control" id="disabledInput" type="text" placeholder="Disabled input"
+                                       disabled=""/>
+                            </div>
+                            <div class="form-group">
+                                <label for="disabledSelect">Disabled select menu</label>
+                                <select id="disabledSelect" class="form-control">
+                                    <option>Disabled select</option>
+                                </select>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"/>Disabled Checkbox
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Disabled Button</button>
+                        </fieldset>
+                    </form>
+                    <h1>Form Validation States</h1>
+                    <form role="form">
+                        <div class="form-group has-success">
+                            <label class="control-label" for="inputSuccess">Input with success</label>
+                            <input type="text" class="form-control" id="inputSuccess"/>
+                        </div>
+                        <div class="form-group has-warning">
+                            <label class="control-label" for="inputWarning">Input with warning</label>
+                            <input type="text" class="form-control" id="inputWarning"/>
+                        </div>
+                        <div class="form-group has-error">
+                            <label class="control-label" for="inputError">Input with error</label>
+                            <input type="text" class="form-control" id="inputError"/>
+                        </div>
+                    </form>
+                    <h1>Input Groups</h1>
+                    <form role="form">
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">@</span>
+                            <input type="text" class="form-control" placeholder="Username"/>
+                        </div>
+                        <div class="form-group input-group">
+                            <input type="text" class="form-control"/>
+                            <span class="input-group-addon">.00</span>
+                        </div>
+                        <div class="form-group input-group">
+                                            <span class="input-group-addon"><i class="fa fa-eur"></i>
+                                            </span>
+                            <input type="text" class="form-control" placeholder="Font Awesome Icon"/>
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="text" class="form-control"/>
+                            <span class="input-group-addon">.00</span>
+                        </div>
+                        <div class="form-group input-group">
+                            <input type="text" class="form-control"/>
+                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button"><i
+                                                        class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.col-lg-6 (nested) -->
+            </div>
+            <!-- /.row (nested) -->
+        </div>
+        <!-- /.panel-body -->
+    </div>
+</div>
+</body>
+</html>

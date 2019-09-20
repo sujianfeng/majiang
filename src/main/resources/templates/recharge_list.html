@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>交易查询</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--在移动设备浏览器上，通过为视口（viewport）设置 meta 属性为 user-scalable=no 可以禁用其缩放（zooming）功能。这样禁用缩放功能后，用户只能滚动屏幕，就能让你的网站看上去更像原生应用的感觉。注意，这种方式我们并不推荐所有网站使用，还是要看你自己的情况而定！
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    -->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/majiang/recharge/list?"
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-default" role="navigation" id="top" th:include="menu_top :: menu_top"></nav>
+<div class="col-md-8 col-sm-offset-2 text-center">
+    <form class="form-inline">
+        产品名称:
+        <select class="span2" name="condition" onchange="search()">
+            <option th:selected="${condition[0]=='-1'}" value="-1">全部</option>
+            <option th:each="managerBalance,managerBalanceStat:${managerBalanceList}" th:selected="${condition0==managerBalance.productNumber}"
+                    th:value="${managerBalance.productNumber}"
+                    th:text="${managerBalance.productName}">
+            </option>
+        </select>
+        <br/>
+        充值ID:<input type="text" name="condition" th:value="${condition[1]}" class="input-small" placeholder="请输入充值ID"/>
+        <br/>
+        <!--房卡数量:<input type="text" name="condition" th:value="${condition[2]}" class="input-small" placeholder="请输入房卡数量"/>-->
+        <!--<br/>-->
+        类型:
+        <select class="span2" name="condition" onchange="search()">
+            <option th:selected="${condition[2]=='-1'}" value="-1">全部</option>
+            <option th:selected="${condition[2]=='1'}" value="1">充值给代理</option>
+            <option th:selected="${condition[2]=='2'}" value="2">充值给玩家</option>
+        </select>
+        <br/>
+        <button type="button" onclick="search()" class="btn btn-link">搜索</button>
+    </form>
+</div>
+<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline collapsed" align="center" valign="middle">
+    <thead>
+    <tr>
+        <!--<td>序号</td>-->
+        <!--<td>代理ID</td>-->
+        <td>代理名称</td>
+        <td>产品名称</td>
+        <td>类型</td>
+        <td>充值ID</td>
+        <td>充值用户</td>
+        <td>充值数量</td>
+        <td>创建时间</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="recharge,userStat:${page.content}">
+        <!--<td th:text="${recharge.id}">001</td>-->
+        <!--<td th:text="${recharge.managerNumber}">001</td>-->
+        <td th:text="${recharge.managerName}">终极街霸</td>
+        <td th:text="${recharge.productName}">终极街霸</td>
+        <td>
+        <span th:switch="${recharge.rechargeType}">
+                <label th:case="1">代理充值</label>
+                <label th:case="2">玩家充值</label>
+            </span>
+        </td>
+        <td>
+        <span th:switch="${recharge.rechargeType}">
+                <label th:case="1"></label>
+                <label th:case="2" th:text="${recharge.rechargeId}"></label>
+            </span>
+        </td>
+        <!--<td th:text="${recharge.rechargeId}">111</td>-->
+        <td th:text="${recharge.rechargeName}">111</td>
+        <td th:text="${recharge.balance}">111</td>
+        <td th:text="${#dates.format(recharge.createTime, 'yyyy-MM-dd')}">600003</td>
+    </tr>
+    </tbody>
+
+</table>
+
+<div class="col-md-8 col-sm-offset-2 text-center" id="search_page" th:include="search_page :: search_page"></div>
+</body>
+</html>

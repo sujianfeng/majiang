@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>首页</title>
+    <meta charset="utf-8"/>
+    <!--为了确保适当的绘制和触屏缩放，要添加以下的代码-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--在移动设备浏览器上，通过为视口（viewport）设置 meta 属性为 user-scalable=no 可以禁用其缩放（zooming）功能。这样禁用缩放功能后，用户只能滚动屏幕，就能让你的网站看上去更像原生应用的感觉。注意，这种方式我们并不推荐所有网站使用，还是要看你自己的情况而定！
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    -->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!--带搜索的导航条-->
+<nav class="navbar navbar-inverse navbar-default" role="navigation" th:fragment="menu_top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">后台管理</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <span th:if="${session.manager.level ==0}">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="/majiang/product/list" class="dropdown-toggle">
+                        产品列表 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/manager/list" class="dropdown-toggle">
+                        代理列表 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/user/list" class="dropdown-toggle">
+                        玩家充值 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/recharge/list" class="dropdown-toggle">
+                        充值查询 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/manager/showConfig" class="dropdown-toggle">
+                        初始房卡 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/sysconfig_batch.html" class="dropdown-toggle">
+                        批量发卡 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/consumption/list" class="dropdown-toggle">
+                        消费统计 <b class="caret"></b>
+                    </a>
+                </li>
+            </ul>
+            </span>
+            <span th:if="${session.manager.level ==1}">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="/majiang/manager/list" class="dropdown-toggle">
+                        代理管理 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/user/list" class="dropdown-toggle">
+                        玩家充值 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/recharge/list" class="dropdown-toggle">
+                        充值查询 <b class="caret"></b>
+                    </a>
+                </li>
+            </ul>
+            </span>
+            <span th:if="${session.manager.level ==2}">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="/majiang/user/list" class="dropdown-toggle">
+                        玩家充值 <b class="caret"></b>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="/majiang/recharge/list" class="dropdown-toggle">
+                        充值查询 <b class="caret"></b>
+                    </a>
+                </li>
+            </ul>
+            </span>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">设置 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/majiang/manager/balance_list">查看房卡</a></li>
+                        <li><a href="/majiang/update_password.html">修改密码</a></li>
+                        <li><a href="/majiang/manager/exit">安全登出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+</body>
+</html>

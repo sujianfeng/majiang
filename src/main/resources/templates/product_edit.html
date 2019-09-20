@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>产品编辑</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--在移动设备浏览器上，通过为视口（viewport）设置 meta 属性为 user-scalable=no 可以禁用其缩放（zooming）功能。这样禁用缩放功能后，用户只能滚动屏幕，就能让你的网站看上去更像原生应用的感觉。注意，这种方式我们并不推荐所有网站使用，还是要看你自己的情况而定！
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    -->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-default" role="navigation" id="top" th:include="menu_top :: menu_top"></nav>
+<div class="col-md-8 col-sm-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            产品管理-产品<label th:text="${product.id ==null ?'新增':'编辑'}"></label>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>产品编号</label>
+                            <input type="hidden" class="inp w240" id="id" name="id" th:value="${product.id}"/>
+                            <input type="text" id="productNumber" name="productNumber" readonly="readonly"
+                                   th:value="${product.number}" placeholder="自动生成,无需填写"
+                                   class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label>产品名称</label>
+                            <input type="text" id="productName" name="productName" th:value="${product.name}"
+                                   class="form-control"
+                                   placeholder="请输入产品名称"/>
+                            <div id="productNameMsg" style="display: none;" class="alert alert-info"></div>
+                        </div>
+                        <button type="button" id="saveBtn" onclick="formSubmit()" class="btn btn-link btn-primary">保存
+                        </button>
+                        <button type="reset" onclick="returnBack()" class="btn btn-link">取消</button>
+                    </form>
+                </div>
+                <!-- /.col-lg-6 (nested) -->
+            </div>
+            <!-- /.row (nested) -->
+        </div>
+        <!-- /.panel-body -->
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function formSubmit() {
+        if (isEmpty($("#productName").val())) {
+            $("#productNameMsg").html("产品名称不能为空");
+            $("#productNameMsg").show();
+            $("#cpcode").focus();
+            return false;
+        }
+        $("#productNameMsg").hide();
+        $.post("/majiang/product/save", {
+            "id": $("#id").val(),
+            "name": $("#productName").val()
+        }, function (data) {
+            if (data.isCorrect == 1) {
+                //保存成功
+                window.location.href = "/majiang/product/list";
+            } else {
+                //保存失败
+                $("#productNameMsg").html(data.msg);
+                $("#productNameMsg").show();
+            }
+        }, "json")
+    }
+
+    function returnBack() {
+        window.history.back();
+    }
+    /*]]>*/
+</script>
+</html>

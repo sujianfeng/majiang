@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>代理列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--在移动设备浏览器上，通过为视口（viewport）设置 meta 属性为 user-scalable=no 可以禁用其缩放（zooming）功能。这样禁用缩放功能后，用户只能滚动屏幕，就能让你的网站看上去更像原生应用的感觉。注意，这种方式我们并不推荐所有网站使用，还是要看你自己的情况而定！
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    -->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:inline="javascript">
+        var pageUrl = "/majiang/manager/list?";
+        var createManagerUrl = "/majiang/manager/create?";
+        var listBalanceUrl = "/majiang/manager/manager_balance_list?";
+        function resetPwd(id) {
+            $.post("/majiang/manager/resetPwd", {
+                "id": id
+            }, function (data) {
+                if (data.isCorrect == 1) {
+                    //保存成功
+                    $("#errMsg").html(data.msg);
+                    $("#errMsg").show();
+                } else {
+                    //保存失败
+                }
+            }, "json")
+        }
+        function createManager() {
+            window.location.href = createManagerUrl;
+        }
+        function listBalance(number) {
+            window.location.href = listBalanceUrl + 'condition=' + number;
+//            window.location.href = (!id) ? editUrl : (editUrl + 'id=' + id);
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-default" role="navigation" id="top" th:include="menu_top :: menu_top"></nav>
+<div class="col-md-8 col-sm-offset-2 text-center">
+<form class="form-inline">
+    代理名称:<input type="text" name="condition" th:value="${condition[0]}" class="input-small" placeholder="请输入代理名称"/>
+    <!--代理编号:<input type="text" name="condition" th:value="${condition[1]}" class="input-small" placeholder="请输入代理编号"/>-->
+    <br/>
+    代理等级:
+    <select class="span1" name="condition" onchange="search()">
+        <option th:selected="${condition[1]=='-1'}" value="-1">全部</option>
+        <option th:selected="${condition[1]=='1'}" value="1">一级代理</option>
+        <option th:selected="${condition[1]=='2'}" value="2">二级代理</option>
+    </select>
+    <br/>
+    <button type="button" onclick="search()" class="btn btn-link">搜索</button>
+    <button type="button" th:onclick="'javascript:createManager();'" class="btn btn-link">创建代理</button>
+</form>
+</div>
+<div class="col-md-8 col-sm-offset-2 text-center">
+    <div id="errMsg" style="display: none;" class="alert alert-info"></div>
+</div>
+<table class="table table-striped table-bordered table-hover dataTable no-footer dtr-inline collapsed" align="center"
+       valign="middle">
+    <thead align="center" valign="middle">
+    <tr>
+        <!--<td>序号</td>-->
+        <td width="25%">代理名称</td>
+        <td width="25%">登陆账号</td>
+        <!--<td>代理编号</td>-->
+        <!--<td>代理等级</td>-->
+        <td width="25%">上级代理</td>
+        <!--<td>上级代理编号</td>-->
+        <!--<td>创建时间</td>-->
+        <!--<td>更新时间</td>-->
+        <td width="15%">充值</td>
+        <td width="10%">重置密码</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="manager,managerStat:${page.content}">
+        <!--<td th:text="${manager.id}">001</td>-->
+        <td th:text="${manager.name}">终极街霸</td>
+        <td th:text="${manager.userName}">600003</td>
+        <!--<td th:text="${manager.number}">600003</td>-->
+        <!--<td>-->
+            <!--<span th:switch="${manager.level}">-->
+                <!--<label th:case="0">admin</label>-->
+                <!--<label th:case="1">一级代理</label>-->
+                <!--<label th:case="2">二级代理</label>-->
+            <!--</span>-->
+        <!--</td>-->
+        <td th:text="${manager.parantName}">终极街霸</td>
+        <!--<td th:text="${manager.parantNumber}">600003</td>-->
+        <!--<td th:text="${#dates.format(manager.createTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>-->
+        <!--<td th:text="${#dates.format(manager.updateTime, 'yyyy-MM-dd HH:mm:ss')}">600003</td>-->
+        <td>
+            <button type="button" th:onclick="'javascript:listBalance('+${manager.number}+');'" class="btn btn-link">充值
+            </button>
+        </td>
+        <td>
+            <button type="button" th:onclick="'javascript:resetPwd('+${manager.id}+');'" class="btn btn-link">重置密码
+            </button>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+<div class="col-md-8 col-sm-offset-2 text-center" id="search_page" th:include="search_page :: search_page"></div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>产品编辑</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--在移动设备浏览器上，通过为视口（viewport）设置 meta 属性为 user-scalable=no 可以禁用其缩放（zooming）功能。这样禁用缩放功能后，用户只能滚动屏幕，就能让你的网站看上去更像原生应用的感觉。注意，这种方式我们并不推荐所有网站使用，还是要看你自己的情况而定！
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    -->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-default" role="navigation" id="top" th:include="menu_top :: menu_top"></nav>
+<div class="col-md-8 col-sm-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            系统设置-批量发卡
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>给哪些用户发卡？</label>
+                            <br/>
+                            <label class="checkbox-inline">
+                                <input name="rechargeType" value="1" type="checkbox"/>一级代理
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="rechargeType" value="2" type="checkbox"/>二级代理
+                            </label>
+                            <label class="checkbox-inline">
+                                <input name="rechargeType" value="3" type="checkbox"/>所有玩家
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>发卡数量</label>
+                            <input type="number" id="rechargeCount" name="rechargeCount"
+                                   class="form-control"
+                                   placeholder="请输入发卡数量"/>
+                            <div id="errMsg" style="display: none;" class="alert alert-info"></div>
+                        </div>
+                        <button type="button" onclick="formSubmit()" id="saveBtn" class="btn btn-link btn-primary">保存
+                        </button>
+                        <button type="reset" class="btn btn-link">取消</button>
+                    </form>
+                </div>
+                <!-- /.col-lg-6 (nested) -->
+            </div>
+            <!-- /.row (nested) -->
+        </div>
+        <!-- /.panel-body -->
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function formSubmit() {
+        $("#errMsg").hide();
+        var rechargeTypes = document.getElementsByName("rechargeType");
+        var checkCount = 0;
+        var rechargeType = "";
+        for (var i = 0; i < rechargeTypes.length; i++) {
+            if (rechargeTypes[i].checked) {
+                checkCount += 1;
+                rechargeType += rechargeTypes[i].value + ",";
+            }
+        }
+        console.log("checkCount=" + checkCount)
+        if (checkCount == 0) {
+            $("#errMsg").html('未勾选发卡用户');
+            $("#errMsg").show();
+            return false;
+        }
+        var rechargeCount = document.getElementById("rechargeCount");
+        if (isEmpty(rechargeCount.value)) {
+            $("#errMsg").html('未输入发卡数量');
+            $("#errMsg").show();
+            return false;
+        }
+        console.log(rechargeType)
+        $.post("/majiang/sysconfig/batch", {
+            "rechargeType": rechargeType,
+            "rechargeCount": rechargeCount.value
+        }, function (data) {
+            $("#errMsg").html(data.msg);
+            $("#errMsg").show();
+        }, "json")
+
+
+    }
+    /*]]>*/
+</script>
+</html>
